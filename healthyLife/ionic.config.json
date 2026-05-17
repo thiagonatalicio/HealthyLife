@@ -1,7 +1,7 @@
 {
-  "name": "healthyLife",
+  "name": "HealthyLife",
   "integrations": {
     "capacitor": {}
   },
-  "type": "angular-standalone"
+  "type": "angular"
 }

@@ -1,17 +1,63 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 2
+      Consumo de Água
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+<ion-content [fullscreen]="true" class="tab2-bg">
+  <div class="tab2-wrapper">
+    
+    <h2 class="page-title">SUA HIDRATAÇÃO</h2>
+
+    <div class="water-progress-section">
+      <div class="water-circle" [style.--porcentagem]="porcentagemAgua + '%'">
+        <div class="inner-circle">
+          <ion-icon name="water" class="water-drop"></ion-icon>
+          <h2>{{ aguaConsumida }} <span>ml</span></h2>
+          <p>Meta: {{ metaAgua }} ml</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-col">
+        <p class="stat-label">Faltam:</p>
+        <p class="stat-value">{{ faltam }} ml</p>
+      </div>
+    </div>
+
+    <h3 class="section-title">ADICIONAR ÁGUA</h3>
+
+    <div class="water-buttons">
+      
+      <div class="water-card" (click)="adicionarAgua(200)">
+        <ion-icon name="cafe-outline"></ion-icon>
+        <span class="amount">+ 200 ml</span>
+        <span class="desc">Copo pequeno</span>
+      </div>
+
+      <div class="water-card highlight" (click)="adicionarAgua(500)">
+        <ion-icon name="water-outline"></ion-icon>
+        <span class="amount">+ 500 ml</span>
+        <span class="desc">Garrafinha</span>
+      </div>
+
+    </div>
+
+    <ion-button fill="clear" class="btn-clear mt-20" (click)="zerarAgua()">
+      Zerar contador de hoje
+    </ion-button>
+
+  </div>
 </ion-content>

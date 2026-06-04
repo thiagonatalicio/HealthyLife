@@ -1,0 +1,169 @@
+ion-content.perfil-bg {
+  --background: #f4f9f6 !important;
+}
+
+.perfil-wrapper {
+  padding: 30px 20px;
+  background-color: #f4f9f6;
+  min-height: 100%;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 30px;
+
+  .logo-mini {
+    position: relative;
+    display: inline-block;
+    .c-text { font-size: 28px; font-weight: bold; color: #0288d1; }
+    .leaf-icon { position: absolute; top: -5px; right: -8px; font-size: 16px; }
+  }
+
+  .title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1e2d3e;
+    margin: 10px 0 15px;
+  }
+
+  .progress-bar {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    .step {
+      height: 4px;
+      width: 30px;
+      background: #e0e0e0;
+      border-radius: 2px;
+      &.active { background: #0084ff; }
+    }
+  }
+}
+
+.form-section {
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1e2d3e;
+    margin-bottom: 8px;
+    &.center { text-align: center; }
+  }
+
+  .row-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  .mt-15 { margin-top: 15px; }
+  .mt-30 { margin-top: 30px; }
+
+  .custom-input {
+    --background: #ffffff !important;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    border: 1px solid #e0e0e0;
+    width: 100%;
+    
+    &.half { width: 48%; }
+    
+    ion-input {
+      --color: #1e2d3e !important;
+      color: #1e2d3e !important;
+    }
+    
+    .activity-label {
+      color: #7f8c8d;
+      font-size: 12px;
+    }
+    .activity-select {
+      width: 100%;
+      color: #1e2d3e;
+    }
+  }
+
+  .gender-selector {
+    display: flex;
+    gap: 5px;
+    width: 48%;
+    
+    .gender-btn {
+      flex: 1;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 20px;
+      color: #7f8c8d;
+      transition: 0.3s ease;
+      
+      &.active {
+        background: #0084ff;
+        color: #ffffff;
+        border-color: #0084ff;
+      }
+    }
+  }
+
+  .objective-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+    .objective-card {
+      flex: 1;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 15px 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      color: #1e2d3e;
+      transition: 0.3s ease;
+      
+      ion-icon {
+        font-size: 28px;
+        margin-bottom: 8px;
+        color: #7f8c8d;
+      }
+      span {
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.2;
+      }
+
+      &.active {
+        background: #e6f2ff;
+        border-color: #0084ff;
+        ion-icon { color: #0084ff; }
+      }
+    }
+  }
+
+  .btn-primary {
+    --background: #0084ff !important;
+    --color: #ffffff !important;
+    --border-radius: 8px;
+    height: 50px;
+    font-weight: bold;
+    font-size: 16px;
+  }
+}
+
+ion-input[type="number"] {
+  &::part(native)::-webkit-inner-spin-button,
+  &::part(native)::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  &::part(native) {
+    -moz-appearance: textfield;
+  }
+}

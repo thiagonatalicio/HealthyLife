@@ -1,0 +1,50 @@
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="login-bg">
+  <div class="login-wrapper">
+    
+    <div class="logo-container">
+      <div class="logo-circle">
+        <span class="c-text">C</span>
+        <span class="leaf-icon">🌱</span>
+      </div>
+      <h1 class="title">Controlador<br><span>de Calorias</span></h1>
+    </div>
+
+    <div class="form-container">
+      <ion-item lines="none" class="custom-input">
+        <ion-icon slot="start" name="person-outline"></ion-icon>
+        <ion-input type="email" placeholder="E-mail" [(ngModel)]="email"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="custom-input">
+        <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+        <ion-input type="password" placeholder="Senha" [(ngModel)]="password"></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" class="btn-login" (click)="login()">
+        Entrar
+      </ion-button>
+
+      <div class="helper-links">
+        <p>Esqueceu a senha?</p>
+        <p class="create-account" (click)="irParaCadastro()">Criar conta</p>
+      </div>
+    </div>
+
+    <div class="social-container">
+      <p>Ou entre com:</p>
+      <div class="social-icons">
+        <div class="icon-box google"><ion-icon name="logo-google"></ion-icon></div>
+        <div class="icon-box facebook"><ion-icon name="logo-facebook"></ion-icon></div>
+        <div class="icon-box apple"><ion-icon name="logo-apple"></ion-icon></div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

@@ -1,0 +1,81 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>plano</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="plano-bg">
+  <div class="plano-wrapper">
+    
+    <div class="header-section">
+      <div class="logo-mini">
+        <span class="c-text">C</span>
+        <span class="leaf-icon">🌱</span>
+      </div>
+      <h2 class="title">SEU PLANO PESSOAL</h2>
+      <div class="progress-bar">
+        <div class="step active"></div>
+        <div class="step active"></div>
+        <div class="step"></div>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-item">
+        <p class="label">Taxa Metabólica Basal (TMB):</p>
+        <p class="value">{{ tmb }} <span>kcal</span></p>
+      </div>
+      <div class="summary-item">
+        <p class="label">Calorias Diárias Alvo:</p>
+        <p class="value highlight">{{ metaCalorias }} <span>kcal</span></p>
+      </div>
+    </div>
+
+    <div class="chart-section">
+      
+      <div class="macro-label fat">
+        Gorduras<br>({{ porcentagemGorduras }}%)
+      </div>
+
+      <div class="donut-chart" [style.background]="graficoDonutEstilo">
+        <div class="donut-inner"></div>
+      </div>
+
+      <div class="macro-label carbs">
+        Carboidratos<br>({{ porcentagemCarbs }}%)
+      </div>
+      
+      <div class="macro-label protein">
+        Proteínas<br>({{ porcentagemProteinas }}%)
+      </div>
+
+    </div>
+
+    <div class="secondary-goals">
+      <div class="goal">
+        <ion-icon name="water-outline" color="primary"></ion-icon>
+        <div>
+          <p class="goal-title">Água</p>
+          <p class="goal-value">({{ metaAgua }})</p>
+        </div>
+      </div>
+      <div class="goal">
+        <ion-icon name="footsteps-outline" color="medium"></ion-icon>
+        <div>
+          <p class="goal-title">Passos</p>
+          <p class="goal-value">({{ metaPassos }})</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <ion-button expand="block" class="btn-primary" (click)="comecarDia()">
+        COMEÇAR O DIA
+      </ion-button>
+      <ion-button expand="block" fill="outline" class="btn-outline" (click)="recalcular()">
+        RECALCULAR
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>

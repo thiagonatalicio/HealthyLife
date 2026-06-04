@@ -1,17 +1,50 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 3
+      Perfil de Metas
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+<ion-content [fullscreen]="true" class="tab3-bg">
+  <div class="tab3-wrapper">
+    <h2 class="page-title">SEU HISTÓRICO E METAS</h2>
+
+    <div class="summary-card">
+      <p>Objetivo Atual:</p>
+      <h3 class="objetivo-text">{{ perfil.objetivo | uppercase }}</h3>
+      <p class="sub-text">Baseado no seu nível: {{ perfil.nivelAtividade }}</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <ion-icon name="flame-outline"></ion-icon>
+        <h4>Meta Calórica</h4>
+        <p>{{ metas.caloriasAlvo }} kcal</p>
+      </div>
+      <div class="stat-card">
+        <ion-icon name="water-outline"></ion-icon>
+        <h4>Meta Água</h4>
+        <p>{{ metas.aguaAlvo }}</p>
+      </div>
+      <div class="stat-card">
+        <ion-icon name="footsteps-outline"></ion-icon>
+        <h4>Meta Passos</h4>
+        <p>{{ metas.passosAlvo }}</p>
+      </div>
+    </div>
+
+    <div class="info-note">
+      <ion-icon name="information-circle-outline"></ion-icon>
+      <p>Estes dados foram calculados com base no seu perfil. Mantenha a consistência diária para atingir o seu objetivo!</p>
+    </div>
+  </div>
 </ion-content>

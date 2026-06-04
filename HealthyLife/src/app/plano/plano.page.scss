@@ -1,0 +1,177 @@
+ion-content.plano-bg {
+  --background: #f4f9f6 !important;
+}
+
+.plano-wrapper {
+  padding: 30px 20px;
+  background-color: #f4f9f6;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 30px;
+  width: 100%;
+
+  .logo-mini {
+    position: relative;
+    display: inline-block;
+    .c-text { font-size: 28px; font-weight: bold; color: #0288d1; }
+    .leaf-icon { position: absolute; top: -5px; right: -8px; font-size: 16px; }
+  }
+
+  .title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1e2d3e;
+    margin: 10px 0 15px;
+  }
+
+  .progress-bar {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    .step {
+      height: 4px;
+      width: 30px;
+      background: #e0e0e0;
+      border-radius: 2px;
+      &.active { background: #0084ff; }
+    }
+  }
+}
+
+.summary-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  width: 100%;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+  margin-bottom: 40px;
+
+  .summary-item {
+    text-align: center;
+    flex: 1;
+
+    &:first-child { border-right: 1px solid #eee; }
+
+    .label {
+      font-size: 11px;
+      color: #7f8c8d;
+      margin: 0 0 5px 0;
+      font-weight: 600;
+    }
+    .value {
+      font-size: 22px;
+      font-weight: bold;
+      color: #1c3144;
+      margin: 0;
+      span { font-size: 14px; font-weight: normal; color: #546e7a; }
+      
+      &.highlight { color: #0084ff; }
+    }
+  }
+}
+
+.chart-section {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+
+  .donut-chart {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .donut-inner {
+    width: 100px;
+    height: 100px;
+    background-color: #f4f9f6; 
+    border-radius: 50%;
+  }
+
+  .macro-label {
+    position: absolute;
+    font-size: 12px;
+    font-weight: 800; 
+    text-align: center;
+    line-height: 1.2;
+
+    &.fat { 
+      top: 10px; 
+      left: 10%; 
+      color: #f39c12;
+    }
+    &.carbs { 
+      top: 40%; 
+      right: 5%; 
+      color: #0084ff;
+    }
+    &.protein { 
+      bottom: 0; 
+      left: 15%; 
+      color: #2ecc71; 
+    }
+  }
+}
+
+.secondary-goals {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  margin-bottom: 40px;
+
+  .goal {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    ion-icon { font-size: 24px; }
+    
+    .goal-title { font-size: 12px; color: #7f8c8d; margin: 0; }
+    .goal-value { font-size: 14px; font-weight: bold; color: #1e2d3e; margin: 0; }
+  }
+}
+
+.action-buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  .btn-primary {
+    --background: #0084ff !important;
+    --color: #ffffff !important;
+    --border-radius: 10px;
+    height: 50px;
+    font-weight: bold;
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .btn-outline {
+    --color: #0084ff !important;
+    --border-color: #0084ff !important;
+    --border-radius: 10px;
+    --background: transparent !important;
+    height: 50px;
+    font-weight: bold;
+    font-size: 14px;
+    margin: 0;
+  }
+}

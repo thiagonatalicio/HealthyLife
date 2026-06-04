@@ -1,0 +1,121 @@
+.login-bg {
+  --background: #f4f9f6; 
+}
+
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 20px;
+
+  .logo-container {
+    text-align: center;
+    margin-bottom: 40px;
+
+    .logo-circle {
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      margin: 0 auto 15px;
+      position: relative;
+
+      .c-text { font-size: 40px; font-weight: bold; color: #0288d1; }
+      .leaf-icon { position: absolute; top: -5px; right: -5px; font-size: 24px; }
+    }
+
+    .title {
+      font-size: 24px;
+      color: #1e2d3e;
+      font-weight: 800;
+      margin: 0;
+      span { font-weight: 400; color: #2c3e50; }
+    }
+  }
+
+  .form-container {
+    width: 100%;
+    max-width: 300px;
+
+    .custom-input {
+      --background: #ffffff !important;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+      border: 1px solid #e0e0e0;
+      
+      ion-icon { 
+        color: #888 !important; 
+        margin-right: 10px; 
+      }
+      
+      ion-input { 
+        --color: #1e2d3e !important;
+        color: #1e2d3e !important;  
+        --placeholder-color: #999999 !important;
+        --placeholder-opacity: 1 !important;
+      }
+    }
+    .btn-login {
+      --background: #0084ff;
+      --border-radius: 12px;
+      height: 50px;
+      margin-top: 20px;
+      font-weight: bold;
+      text-transform: none;
+      font-size: 16px;
+    }
+
+    .helper-links {
+      text-align: center;
+      margin-top: 20px;
+      p { font-size: 14px; color: #7f8c8d; margin: 8px 0; }
+      .create-account { font-weight: bold; color: #1e2d3e; cursor: pointer; }
+    }
+  }
+
+  .social-container {
+    margin-top: 40px;
+    text-align: center;
+    width: 100%;
+    
+    p { color: #95a5a6; font-size: 14px; margin-bottom: 15px; }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+
+      .icon-box {
+        width: 45px;
+        height: 45px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        border: 1px solid #e0e0e0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        
+        &.google { color: #db4437; }
+        &.facebook { color: #4267b2; }
+        &.apple { color: #000000; }
+      }
+    }
+  }
+}
+.create-account {
+  color: #0084ff;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+  text-align: center;
+  margin-top: 10px;
+}

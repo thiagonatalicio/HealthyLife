@@ -1,17 +1,139 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Refeições e Calorias
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+<ion-content [fullscreen]="true" class="tab1-bg">
+  <div class="tab1-wrapper">
+    
+    <h2 class="page-title">CALORIAS DO DIA</h2>
+
+    <div class="progress-section">
+      <div class="progress-circle" [style.--porcentagem]="porcentagemConsumida + '%'">
+        <div class="inner-circle">
+          <h2>{{ caloriasConsumidas }} / {{ caloriasAlvo }}</h2>
+          <p>kcal</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-col">
+        <p class="stat-label">Consumido:</p>
+        <p class="stat-value">{{ caloriasConsumidas }} kcal</p>
+      </div>
+      <div class="stat-col">
+        <p class="stat-label">Restante:</p>
+        <p class="stat-value">{{ caloriasRestantes }} kcal</p>
+      </div>
+    </div>
+
+    <h3 class="section-title">REFEIÇÕES</h3>
+
+    <div class="meals-grid">
+      
+      <div class="meal-card">
+        <div class="meal-header">
+          <span class="meal-name">Pequeno-almoço</span>
+          <span class="meal-calories">{{ total(refeicoes.cafe) }} kcal</span>
+        </div>
+        <div class="meal-body">
+          <ul class="lista-pratos">
+            <li *ngFor="let item of refeicoes.cafe">{{ item.nome }} ({{ item.calorias }} kcal)</li>
+          </ul>
+          <div class="meal-action">
+            <div class="add-btn" (click)="abrirModal('cafe')"><ion-icon name="add"></ion-icon></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-header">
+          <span class="meal-name">Almoço</span>
+          <span class="meal-calories">{{ total(refeicoes.almoco) }} kcal</span>
+        </div>
+        <div class="meal-body">
+          <ul class="lista-pratos">
+            <li *ngFor="let item of refeicoes.almoco">{{ item.nome }} ({{ item.calorias }} kcal)</li>
+          </ul>
+          <div class="meal-action">
+            <div class="add-btn" (click)="abrirModal('almoco')"><ion-icon name="add"></ion-icon></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-header">
+          <span class="meal-name">Jantar</span>
+          <span class="meal-calories">{{ total(refeicoes.jantar) }} kcal</span>
+        </div>
+        <div class="meal-body">
+          <ul class="lista-pratos">
+            <li *ngFor="let item of refeicoes.jantar">{{ item.nome }} ({{ item.calorias }} kcal)</li>
+          </ul>
+          <div class="meal-action">
+            <div class="add-btn" (click)="abrirModal('jantar')"><ion-icon name="add"></ion-icon></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="meal-header">
+          <span class="meal-name">Lanches</span>
+          <span class="meal-calories">{{ total(refeicoes.lanches) }} kcal</span>
+        </div>
+        <div class="meal-body">
+          <ul class="lista-pratos">
+            <li *ngFor="let item of refeicoes.lanches">{{ item.nome }} ({{ item.calorias }} kcal)</li>
+          </ul>
+          <div class="meal-action">
+            <div class="add-btn" (click)="abrirModal('lanches')"><ion-icon name="add"></ion-icon></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <ion-button expand="block" class="btn-success mt-20" (click)="abrirModal('avulso')">
+      ADICIONAR REFEIÇÃO PRONTA
+    </ion-button>
+
+    <ion-button fill="clear" class="btn-clear mt-20" (click)="zerarCalorias()">
+      Zerar contador de hoje
+    </ion-button>
+
+  </div>
+
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="fecharModal()" [initialBreakpoint]="0.50" [breakpoints]="[0, 0.50, 0.85]">
+    <ng-template>
+      <ion-content class="modal-bg">
+        <div class="modal-header">
+          <h3>Escolha um Prato</h3>
+          <p>Selecione uma opção rápida para adicionar</p>
+        </div>
+        <div class="pratos-list">
+          <div class="prato-item" *ngFor="let prato of pratosProntos" (click)="adicionarPrato(prato)">
+            <div class="prato-icon">{{ prato.icone }}</div>
+            <div class="prato-info">
+              <h4>{{ prato.nome }}</h4>
+              <p>+ {{ prato.calorias }} kcal</p>
+            </div>
+            <ion-icon name="add-circle" class="add-icon"></ion-icon>
+          </div>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
 </ion-content>

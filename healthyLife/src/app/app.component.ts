@@ -8,7 +8,7 @@ import { DataService } from './data.service';
   standalone: false,
 })
 export class AppComponent {
-  nomeExibido: string = 'Visitante';
+  nomeExibido!: string;
 
   constructor(
     private navCtrl: NavController,
@@ -17,7 +17,7 @@ export class AppComponent {
   ) {
 
     this.dataService.nomeSubject.subscribe(nome => {
-      this.nomeExibido = nome || 'Visitante';
+      this.nomeExibido = nome;
     });
   }
 

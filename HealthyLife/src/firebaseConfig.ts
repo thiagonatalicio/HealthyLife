@@ -6,7 +6,7 @@ const firebaseConfig = {
    apiKey: "AIzaSyAIKvfL4nuhW3aPYXZJc45lFfAzXflfC7A",
    authDomain: "contador-de-calorias-a94ec.firebaseapp.com",
    projectId: "contador-de-calorias-a94ec",
-   storageBucket: "contador-de-calorias-a94ec.firebasestorage.app",
+   storageBucket: "contador-de-calorias-a94ec.appspot.com",
    messagingSenderId: "15378216218",
    appId: "1:15378216218:web:1fce40eba5d8eabfed28a3",
    databaseURL: "https://contador-de-calorias-a94ec-default-rtdb.firebaseio.com"

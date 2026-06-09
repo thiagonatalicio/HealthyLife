@@ -58,7 +58,7 @@ export class DataService {
         this.aguaConsumida = d.agua_consumida !== undefined ? d.agua_consumida : 0;
         this.refeicoesDoDia = d.refeicoes_consumidas || this.refeicoesDoDia;
         
-        this.nomeSubject.next(this.usuarioNome || 'Visitante');
+        this.nomeSubject.next(this.usuarioNome );
         this.dadosCarregados = true; 
       } else {
   

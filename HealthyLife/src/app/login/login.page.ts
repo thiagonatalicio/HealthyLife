@@ -3,6 +3,8 @@ import { NavController, ToastController } from '@ionic/angular';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebaseConfig';
 import { DataService } from '../data.service';
+import { sendPasswordResetEmail } from 'firebase/auth';
+
 
 @Component({
   selector: 'app-login',
@@ -19,6 +21,18 @@ export class LoginPage {
     private toastCtrl: ToastController,
     private dataService: DataService 
   ) { }
+
+  async recuperarSenha(email: string) {
+    console.log(this.email);
+  try {
+    await sendPasswordResetEmail(auth, email);
+
+    alert('E-mail de recuperação enviado!');
+  } catch (erro) {
+    console.log(erro);
+    alert('Erro ao enviar e-mail de recuperação.');
+  }
+}
 
   async login() {
     if (!this.email || !this.password) {

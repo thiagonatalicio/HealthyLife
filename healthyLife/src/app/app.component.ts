@@ -21,6 +21,7 @@ export class AppComponent {
     });
   }
 
+  editarCadastro(){ this.menuCtrl.close(); this.navCtrl.navigateRoot('/perfil/editar'); }
   voltarParaCadastro() { this.menuCtrl.close(); this.navCtrl.navigateRoot('/perfil'); }
   async sair() { await this.dataService.logout(); await this.menuCtrl.close(); this.navCtrl.navigateRoot('/login'); }
 }

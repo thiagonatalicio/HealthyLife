@@ -16,7 +16,7 @@
 
 <ion-content [fullscreen]="true" class="tab1-bg">
   <div class="tab1-wrapper">
-    
+
     <h2 class="page-title">CALORIAS DO DIA</h2>
 
     <div class="progress-section">
@@ -42,10 +42,10 @@
     <h3 class="section-title">REFEIÇÕES</h3>
 
     <div class="meals-grid">
-      
+
       <div class="meal-card">
         <div class="meal-header">
-          <span class="meal-name">Pequeno-almoço</span>
+          <span class="meal-name">Café da manhã</span>
           <span class="meal-calories">{{ total(refeicoes.cafe) }} kcal</span>
         </div>
         <div class="meal-body">
@@ -104,10 +104,6 @@
       </div>
 
     </div>
-
-    <ion-button expand="block" class="btn-success mt-20" (click)="abrirModal('avulso')">
-      ADICIONAR REFEIÇÃO PRONTA
-    </ion-button>
 
     <ion-button fill="clear" class="btn-clear mt-20" (click)="zerarCalorias()">
       Zerar contador de hoje

@@ -25,7 +25,17 @@ export class PerfilPage implements OnInit {
     private toastCtrl: ToastController
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  // Preenche os campos com os dados que já existem no DataService
+  if (this.dataService.dadosCarregados) {
+    this.idade = this.dataService.dadosPerfil.idade || null;
+    this.peso = this.dataService.dadosPerfil.peso || null;
+    this.altura = this.dataService.dadosPerfil.altura || null;
+    this.genero = this.dataService.dadosPerfil.genero;
+    this.nivelAtividade = this.dataService.dadosPerfil.nivelAtividade;
+    this.objetivo = this.dataService.dadosPerfil.objetivo;
+  }
+}
 
   selecionarGenero(gen: string) {
     this.genero = gen;

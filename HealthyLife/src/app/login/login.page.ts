@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from '@ionic/angular';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { NavController, ToastController, AlertController } from '@ionic/angular';
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../../firebaseConfig';
 import { DataService } from '../data.service';
-import { sendPasswordResetEmail } from 'firebase/auth';
-
 
 @Component({
   selector: 'app-login',
@@ -19,20 +17,46 @@ export class LoginPage {
   constructor(
     private navCtrl: NavController, 
     private toastCtrl: ToastController,
-    private dataService: DataService 
+    private dataService: DataService,
+    private alertCtrl: AlertController 
   ) { }
 
-  async recuperarSenha(email: string) {
-    console.log(this.email);
-  try {
-    await sendPasswordResetEmail(auth, email);
-
-    alert('E-mail de recuperação enviado!');
-  } catch (erro) {
-    console.log(erro);
-    alert('Erro ao enviar e-mail de recuperação.');
+  async abrirAlertaRecuperacao() {
+    const alert = await this.alertCtrl.create({
+      header: 'Recuperar Senha',
+      message: 'Digite seu e-mail para receber o link de redefinição:',
+      inputs: [
+        {
+          name: 'emailRecuperacao',
+          type: 'email',
+          placeholder: 'seu@email.com',
+          value: this.email 
+        }
+      ],
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'Enviar',
+          handler: (data) => {
+            if (data.emailRecuperacao) {
+              this.recuperarSenha(data.emailRecuperacao);
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
-}
+
+  async recuperarSenha(email: string) {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      this.mostrarToast('E-mail enviado! Verifique sua caixa de entrada.', 'success');
+    } catch (erro) {
+      console.log(erro);
+      this.mostrarToast('Erro ao enviar e-mail. Verifique o endereço.', 'danger');
+    }
+  }
 
   async login() {
     if (!this.email || !this.password) {
@@ -40,15 +64,9 @@ export class LoginPage {
       return;
     }
     try {
-      
       await signInWithEmailAndPassword(auth, this.email, this.password);
-      
-      
       await this.dataService.carregarDadosDoUsuario();
-      
-     
       this.navCtrl.navigateRoot('/tabs/tab1');
-      
     } catch (error) {
       this.mostrarToast('Erro: Verifique os dados.', 'danger');
     }

@@ -9,27 +9,22 @@ export class DataService {
   public usuarioId: string = '';
   public usuarioNome: string = '';
   public nomeSubject = new BehaviorSubject<string>('Visitante');
-<<<<<<< Updated upstream
   public precisaCompletarPerfil: boolean = false;
 
 
   public dadosCarregados: boolean = false;
-=======
-  public dadosCarregados: boolean = false; 
->>>>>>> Stashed changes
 
-  // Modelos de dados
+
+  
   public dadosPerfil = { idade: 0, peso: 0, altura: 0, genero: 'M', nivelAtividade: 'sedentario', objetivo: 'perder', tmb: 0 };
   public metas = { caloriasAlvo: 2000, aguaAlvo: '2L', passosAlvo: '0', carbs: 0, proteinas: 0, gorduras: 0 };
   public aguaConsumida: number = 0;
   public refeicoesDoDia: any = { cafe: [], almoco: [], jantar: [], lanches: [], avulso: [] };
 
-<<<<<<< Updated upstream
-  constructor() {
-=======
+
+
   constructor() { 
-    // Monitoramento automático de sessão
->>>>>>> Stashed changes
+    
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         this.usuarioId = user.uid;
@@ -71,18 +66,15 @@ export class DataService {
         this.metas = d.metas || this.metas;
         this.aguaConsumida = d.agua_consumida || 0;
         this.refeicoesDoDia = d.refeicoes_consumidas || this.refeicoesDoDia;
-<<<<<<< Updated upstream
 
         this.nomeSubject.next(this.usuarioNome );
         this.dadosCarregados = true;
       } else {
 
         this.dadosCarregados = true;
-=======
         this.nomeSubject.next(this.usuarioNome);
->>>>>>> Stashed changes
       }
-      // Garante que o app entenda que os dados foram processados
+      
       this.dadosCarregados = true; 
     } catch (e) { 
       console.error("Erro ao carregar dados:", e); 
@@ -91,7 +83,6 @@ export class DataService {
   }
 
   async salvarDadosNoFirebase() {
-<<<<<<< Updated upstream
 
     if (!this.usuarioId || !this.dadosCarregados) {
       console.warn("Salvamento bloqueado: dados ainda não carregados.");
@@ -107,7 +98,6 @@ export class DataService {
       refeicoes_consumidas: this.refeicoesDoDia,
       agua_consumida: this.aguaConsumida
     });
-=======
     if (!this.usuarioId) return;
     
     try {
@@ -121,7 +111,6 @@ export class DataService {
     } catch (e) {
       console.error("Erro ao salvar dados:", e);
     }
->>>>>>> Stashed changes
   }
 
   async salvarRefeicoesDoDia(refeicoes: any) {
@@ -134,10 +123,7 @@ export class DataService {
     await this.salvarDadosNoFirebase();
   }
 
-<<<<<<< Updated upstream
-  async obterRefeicoesProntas() {
-    try { const snapshot = await get(child(ref(db), 'refeicoes_prontas')); return snapshot.exists() ? Object.keys(snapshot.val()).map(key => ({ id: key, ...snapshot.val()[key] })) : []; } catch (e) { return []; }
-=======
+ 
   async obterRefeicoesProntas() { 
     try { 
       const snapshot = await get(child(ref(db), 'refeicoes_prontas')); 
@@ -147,6 +133,5 @@ export class DataService {
     } catch (e) { 
       return []; 
     } 
->>>>>>> Stashed changes
   }
 }

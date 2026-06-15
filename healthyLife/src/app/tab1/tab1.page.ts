@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService } from '../data.service';
-import { ToastController } from '@ionic/angular';
+import { ToastController, MenuController } from '@ionic/angular'; // 1. Importe o MenuController
 
 @Component({
   selector: 'app-tab1',
@@ -13,8 +13,21 @@ export class Tab1Page {
   refeicaoSelecionada: string = '';
   pratosProntos: any[] = [];
 
-  constructor(public dataService: DataService, private toastCtrl: ToastController) {}
+  // 2. Injete o MenuController no construtor
+  constructor(
+    public dataService: DataService, 
+    private toastCtrl: ToastController,
+    private menuCtrl: MenuController 
+  ) {}
 
+  // 3. Força o bloqueio do arraste toda vez que esta página é exibida
+  ionViewWillEnter() {
+    this.menuCtrl.swipeGesture(false);
+    this.carregarRefeicoesDaNuvem();
+  }
+
+  // ... restrição do seu código existente ...
+  
   get refeicoes() { return this.dataService.refeicoesDoDia; }
   get caloriasAlvo() { return this.dataService.metas.caloriasAlvo || 2000; }
   get caloriasConsumidas() { return this.total(this.refeicoes.cafe) + this.total(this.refeicoes.almoco) + this.total(this.refeicoes.jantar) + this.total(this.refeicoes.lanches) + this.total(this.refeicoes.avulso); }
@@ -31,18 +44,13 @@ export class Tab1Page {
     this.fecharModal();
   }
 
-async ionViewWillEnter() {
-  await this.carregarRefeicoesDaNuvem();
-}
-
-async carregarRefeicoesDaNuvem() {
-  try {
-    this.pratosProntos = await this.dataService.obterRefeicoesProntas();
-    console.log('Pratos carregados:', this.pratosProntos);
-  } catch (erro) {
-    console.error('Erro ao buscar refeições:', erro);
+  async carregarRefeicoesDaNuvem() {
+    try {
+      this.pratosProntos = await this.dataService.obterRefeicoesProntas();
+    } catch (erro) {
+      console.error('Erro ao buscar refeições:', erro);
+    }
   }
-}
 
   async zerarCalorias() { 
     this.dataService.refeicoesDoDia = { cafe: [], almoco: [], jantar: [], lanches: [], avulso: [] }; 

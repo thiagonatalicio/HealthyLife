@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService } from '../data.service';
-import { ToastController, MenuController } from '@ionic/angular'; // 1. Importe o MenuController
+import { ToastController, MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -13,20 +13,16 @@ export class Tab1Page {
   refeicaoSelecionada: string = '';
   pratosProntos: any[] = [];
 
-  // 2. Injete o MenuController no construtor
   constructor(
     public dataService: DataService, 
     private toastCtrl: ToastController,
     private menuCtrl: MenuController 
   ) {}
 
-  // 3. Força o bloqueio do arraste toda vez que esta página é exibida
   ionViewWillEnter() {
     this.menuCtrl.swipeGesture(false);
     this.carregarRefeicoesDaNuvem();
   }
-
-  // ... restrição do seu código existente ...
   
   get refeicoes() { return this.dataService.refeicoesDoDia; }
   get caloriasAlvo() { return this.dataService.metas.caloriasAlvo || 2000; }

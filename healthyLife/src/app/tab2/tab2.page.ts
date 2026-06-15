@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService } from '../data.service';
-import { MenuController } from '@ionic/angular'; // 1. Importe o MenuController
+import { MenuController } from '@ionic/angular'; 
 
 @Component({
   selector: 'app-tab2',
@@ -10,13 +10,11 @@ import { MenuController } from '@ionic/angular'; // 1. Importe o MenuController
 })
 export class Tab2Page {
  
-  // 2. Injete no construtor
   constructor(
     public dataService: DataService,
     private menuCtrl: MenuController 
   ) {}
 
-  // 3. Força o bloqueio do arraste toda vez que esta página é exibida
   ionViewWillEnter() {
     this.menuCtrl.swipeGesture(false);
   }

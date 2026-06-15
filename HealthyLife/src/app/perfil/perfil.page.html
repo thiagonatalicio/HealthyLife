@@ -6,7 +6,7 @@
 
 <ion-content [fullscreen]="true" class="perfil-bg">
   <div class="perfil-wrapper">
-    
+
     <div class="header-section">
       <div class="logo-mini">
         <span class="c-text">C</span>
@@ -21,13 +21,13 @@
     </div>
 
     <div class="form-section">
-      
+
       <div class="row-group mt-15">
         <ion-item lines="none" class="custom-input half">
           <ion-label position="stacked" class="activity-label">Idade</ion-label>
           <ion-input type="number" placeholder="Ex: 25" [(ngModel)]="idade"></ion-input>
         </ion-item>
-        
+
         <div style="width: 48%; display: flex; flex-direction: column;">
           <span style="color: #7f8c8d; font-size: 12px; margin-bottom: 2px; margin-left: 2px; font-weight: 600;">Gênero</span>
           <div class="gender-selector" style="width: 100%;">
@@ -65,7 +65,7 @@
 
       <p class="section-label center mt-30">SEU OBJETIVO</p>
       <div class="objective-group">
-        
+
         <div class="objective-card" [class.active]="objetivo === 'perder'" (click)="selecionarObjetivo('perder')">
           <ion-icon name="scale-outline"></ion-icon>
           <span>Perder<br>Peso</span>
@@ -85,6 +85,10 @@
 
       <ion-button expand="block" class="btn-primary mt-30" (click)="avancar()">
         PRÓXIMO
+      </ion-button>
+
+      <ion-button expand="block" class="btn-primary mt-30" (click)="voltar()">
+        Voltar
       </ion-button>
 
     </div>

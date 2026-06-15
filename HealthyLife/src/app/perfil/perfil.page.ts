@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, ToastController } from '@ionic/angular'; 
-import { DataService } from '../data.service'; 
+import { NavController, ToastController } from '@ionic/angular';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-perfil',
@@ -12,15 +12,15 @@ export class PerfilPage implements OnInit {
   idade: number | null = null;
   peso: number | null = null;
   altura: number | null = null;
-  
-  genero: string = 'M'; 
+
+  genero: string = 'M';
   nivelAtividade: string = 'sedentario';
-  objetivo: string = 'perder'; 
+  objetivo: string = 'perder';
 
   tmb: number = 0;
 
   constructor(
-    private navCtrl: NavController, 
+    private navCtrl: NavController,
     private dataService: DataService,
     private toastCtrl: ToastController
   ) { }
@@ -66,29 +66,33 @@ export class PerfilPage implements OnInit {
     this.tmb = Math.round(this.tmb);
   }
 
-  
-async avancar() {
-  if (!this.idade || !this.peso || !this.altura || this.idade <= 0 || this.peso <= 0 || this.altura <= 0) {
-    return;
-  }
-  
-  this.calcularTMB();
 
-  this.dataService.dadosPerfil = {
-    idade: this.idade,
-    peso: this.peso,
-    altura: this.altura,
-    genero: this.genero,
-    nivelAtividade: this.nivelAtividade,
-    objetivo: this.objetivo,
-    tmb: this.tmb
-  };
+  async avancar() {
+    if (!this.idade || !this.peso || !this.altura || this.idade <= 0 || this.peso <= 0 || this.altura <= 0) {
+      return;
+    }
 
-  try {
-    await this.dataService.salvarDadosNoFirebase();
-    this.navCtrl.navigateForward('/plano'); 
-  } catch (error) {
-    console.error("Erro ao salvar:", error);
+    this.calcularTMB();
+
+    this.dataService.dadosPerfil = {
+      idade: this.idade,
+      peso: this.peso,
+      altura: this.altura,
+      genero: this.genero,
+      nivelAtividade: this.nivelAtividade,
+      objetivo: this.objetivo,
+      tmb: this.tmb
+    };
+
+    try {
+      await this.dataService.salvarDadosNoFirebase();
+      this.navCtrl.navigateForward('/plano');
+    } catch (error) {
+      console.error("Erro ao salvar:", error);
+    }
   }
-}
+
+  async voltar(){
+    this.navCtrl.navigateRoot('/tabs/tab1');
+  }
 }

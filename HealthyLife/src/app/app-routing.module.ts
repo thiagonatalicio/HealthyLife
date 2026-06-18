@@ -1,33 +1,37 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../app/guards/auth-guard'; // Importe o seu Guard aqui
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login', 
+    redirectTo: '', 
     pathMatch: 'full'
   },
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
+  // Rotas protegidas pelo AuthGuard
   {
     path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'perfil',
-    loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule)
+    loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'plano',
-    loadChildren: () => import('./plano/plano.module').then( m => m.PlanoPageModule)
+    loadChildren: () => import('./plano/plano.module').then( m => m.PlanoPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then( m => m.AuthPageModule)
   }
-
 ];
 
 @NgModule({

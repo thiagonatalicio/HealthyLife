@@ -1,5 +1,5 @@
 <ion-app>
-  <ion-menu side="start" contentId="main-content" *ngIf="estaLogado">
+  <ion-menu side="start" contentId="main-content" *ngIf="estaLogado" [swipeGesture]="false">
     <ion-header>
       <ion-toolbar color="light">
         <ion-title>Olá, {{ nomeExibido }}</ion-title>

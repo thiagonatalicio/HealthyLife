@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService } from '../data.service';
-import { MenuController } from '@ionic/angular'; 
+import { MenuController, ToastController } from '@ionic/angular'; // Adicionado ToastController
 
 @Component({
   selector: 'app-tab2',
@@ -12,11 +12,39 @@ export class Tab2Page {
  
   constructor(
     public dataService: DataService,
-    private menuCtrl: MenuController 
+    private menuCtrl: MenuController,
+    private toastCtrl: ToastController // Injetado aqui
   ) {}
 
   ionViewWillEnter() {
     this.menuCtrl.swipeGesture(false);
+    
+    const intervalo = parseInt(this.dataService.metas.intervaloAgua || '0');
+    if (intervalo > 0) {
+      this.dataService.configurarLembreteAgua(intervalo);
+    }
+  }
+
+  async salvarEAgendar() {
+    // 1. Salva no Firebase
+    await this.dataService.salvarDadosNoFirebase();
+    
+    // 2. Configura a notificação
+    const intervalo = parseInt(this.dataService.metas.intervaloAgua || '0');
+    await this.dataService.configurarLembreteAgua(intervalo);
+    
+    // 3. Feedback visual para o usuário
+    const mensagem = intervalo > 0 
+      ? `Lembrete agendado a cada ${intervalo} minutos.` 
+      : 'Lembretes desativados.';
+      
+    const toast = await this.toastCtrl.create({
+      message: mensagem,
+      duration: 2000,
+      position: 'bottom',
+      color: 'primary'
+    });
+    await toast.present();
   }
 
   get aguaConsumida(): number { 
@@ -48,5 +76,13 @@ export class Tab2Page {
   async zerarAgua() {
     this.dataService.aguaConsumida = 0;
     await this.dataService.salvarAguaDoDia(0);
+    await this.dataService.configurarLembreteAgua(0);
+    
+    const toast = await this.toastCtrl.create({
+      message: 'Contador zerado.',
+      duration: 2000,
+      color: 'danger'
+    });
+    await toast.present();
   }
 }

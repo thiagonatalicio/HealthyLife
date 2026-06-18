@@ -1,23 +1,41 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Consumo de Água
-    </ion-title>
+    <ion-title>Consumo de Água</ion-title>
   </ion-toolbar>
-</ion-header>
 
-<ion-header [translucent]="true">
   <ion-toolbar>
-    
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="seletorLembrete.open()" class="btn-lembrete-header">
+        <ion-label>Lembretes</ion-label>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="tab2-bg">
+  <ion-item style="display: none;">
+    <ion-select #seletorLembrete 
+            [(ngModel)]="dataService.metas.intervaloAgua" 
+            (ionChange)="salvarEAgendar()"
+            cancelText="Cancelar"
+            okText="Confirmar">
+  <ion-select-option value="0">Desativado</ion-select-option>
+  <ion-select-option value="15">A cada 15 minutos</ion-select-option>
+  <ion-select-option value="30">A cada 30 minutos</ion-select-option>
+  <ion-select-option value="60">A cada 1 hora</ion-select-option>
+  <ion-select-option value="90">A cada 1 hora e 30 min</ion-select-option>
+  <ion-select-option value="120">A cada 2 horas</ion-select-option>
+  <ion-select-option value="150">A cada 2 horas e 30 min</ion-select-option>
+  <ion-select-option value="180">A cada 3 horas</ion-select-option>
+  <ion-select-option value="210">A cada 3 horas e 30 min</ion-select-option>
+</ion-select>
+  </ion-item>
+
   <div class="tab2-wrapper">
-    
     <h2 class="page-title">SUA HIDRATAÇÃO</h2>
 
     <div class="water-progress-section">
@@ -40,24 +58,22 @@
     <h3 class="section-title">ADICIONAR ÁGUA</h3>
 
     <div class="water-buttons">
-      
-      <div class="water-card" (click)="adicionarAgua(200)">
+      <div class="water-card highlight" (click)="adicionarAgua(200)">
         <ion-icon name="cafe-outline"></ion-icon>
         <span class="amount">+ 200 ml</span>
-        <span class="desc">Copo pequeno</span>
+        <span class="desc">Copo</span>
       </div>
-
       <div class="water-card highlight" (click)="adicionarAgua(500)">
         <ion-icon name="water-outline"></ion-icon>
         <span class="amount">+ 500 ml</span>
-        <span class="desc">Garrafinha</span>
+        <span class="desc">Garrafa</span>
       </div>
-
     </div>
 
-    <ion-button fill="clear" class="btn-clear mt-20" (click)="zerarAgua()">
-      Zerar contador de hoje
-    </ion-button>
-
+    <div style="margin-top: 30px; text-align: center;">
+      <ion-button fill="clear" class="btn-clear" (click)="zerarAgua()">
+        Zerar contador de hoje
+      </ion-button>
+    </div>
   </div>
 </ion-content>

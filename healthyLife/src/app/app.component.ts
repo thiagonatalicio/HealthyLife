@@ -18,32 +18,41 @@ export class AppComponent {
     private menuCtrl: MenuController,
     public dataService: DataService
   ) {
-
+    // 1. Bloqueia o menu lateral por padrão
     this.menuCtrl.swipeGesture(false);
 
-    
+    // 2. Monitora o estado de autenticação para redirecionar corretamente
     onAuthStateChanged(auth, (user) => {
       this.estaLogado = !!user;
+
+      if (user) {
+        // Se já tem sessão, vai direto para as abas
+        this.navCtrl.navigateRoot('/tabs/tab1');
+      } else {
+        // Se não tem, vai para o login
+        this.navCtrl.navigateRoot('/login');
+      }
     });
 
+    // 3. Atualiza o nome de exibição no menu
     this.dataService.nomeSubject.subscribe(nome => {
       this.nomeExibido = nome || 'Visitante';
     });
   }
 
+  // Ação de navegar para o perfil
   voltarParaCadastro() { 
     this.menuCtrl.close(); 
     this.navCtrl.navigateRoot('/perfil'); 
   }
 
- async sair() { 
+  // Ação de logout seguro
+  async sair() { 
     try {
-      
       await this.menuCtrl.close();
-      
       await this.dataService.logout(); 
-      
-      await this.navCtrl.navigateRoot('/login');
+      // O onAuthStateChanged será disparado pelo logout, 
+      // e o redirecionamento para /login acontecerá automaticamente pelo construtor.
     } catch (error) {
       console.error("Erro ao realizar logout:", error);
     }

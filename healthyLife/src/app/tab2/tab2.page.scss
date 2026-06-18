@@ -1,3 +1,4 @@
+/* --- ESTILOS DE TELA E WRAPPER --- */
 ion-content.tab2-bg {
   --background: #f4f9f6 !important;
 }
@@ -19,6 +20,7 @@ ion-content.tab2-bg {
   letter-spacing: 0.5px;
 }
 
+/* --- ESTILOS DO GRÁFICO (Gradiente Corrigido) --- */
 .water-progress-section {
   display: flex;
   justify-content: center;
@@ -68,36 +70,9 @@ ion-content.tab2-bg {
     }
     p { font-size: 14px; color: #7f8c8d; margin: 0; font-weight: 600; }
   }
-
-
-  .inner-circle {
-    width: 195px;
-    height: 195px;
-    background-color: #ffffff;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-shadow: inset 0 4px 10px rgba(0,0,0,0.05);
-
-    .water-drop {
-      font-size: 32px;
-      color: #3498db;
-      margin-bottom: 5px;
-    }
-
-    h2 { 
-      font-size: 28px; 
-      font-weight: 800; 
-      color: #1e2d3e; 
-      margin: 0 0 5px 0; 
-      span { font-size: 14px; color: #7f8c8d; font-weight: normal; }
-    }
-    p { font-size: 14px; color: #7f8c8d; margin: 0; font-weight: 600; }
-  }
 }
 
+/* --- ESTATÍSTICAS E BOTÕES --- */
 .stats-row {
   margin-bottom: 40px;
   .stat-col {
@@ -155,9 +130,28 @@ ion-content.tab2-bg {
   }
 }
 
+/* --- NOVO ESTILO PARA O BOTÃO DE LEMBRETE NO HEADER --- */
+ion-toolbar {
+  ion-buttons[slot="end"] {
+    ion-button {
+      --color: #3498db;
+      font-weight: 700;
+      font-size: 12px; /* Reduzido levemente para melhor ajuste no cabeçalho */
+      margin-right: 10px;
+      background: rgba(52, 152, 219, 0.08);
+      border-radius: 8px;
+      padding: 0 10px;
+      text-transform: none;
+    }
+  }
+}
+
 .btn-clear {
   --color: #e74c3c;
   font-size: 12px;
   font-weight: bold;
+  margin-top: 40px;
+  display: block;
 }
+
 .mt-20 { margin-top: 20px; }

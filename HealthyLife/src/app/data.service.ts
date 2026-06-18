@@ -3,28 +3,21 @@ import { ref, set, get, child } from 'firebase/database';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { db, auth } from '../firebaseConfig';
 import { BehaviorSubject } from 'rxjs';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 @Injectable({ providedIn: 'root' })
 export class DataService {
   public usuarioId: string = '';
   public usuarioNome: string = '';
   public nomeSubject = new BehaviorSubject<string>('Visitante');
-  public precisaCompletarPerfil: boolean = false;
-
-
   public dadosCarregados: boolean = false;
 
-
-  
   public dadosPerfil = { idade: 0, peso: 0, altura: 0, genero: 'M', nivelAtividade: 'sedentario', objetivo: 'perder', tmb: 0 };
-  public metas = { caloriasAlvo: 2000, aguaAlvo: '2L', passosAlvo: '0', carbs: 0, proteinas: 0, gorduras: 0 };
+  public metas = { caloriasAlvo: 2000, aguaAlvo: '2L', intervaloAgua: '0', passosAlvo: '0', carbs: 0, proteinas: 0, gorduras: 0 };
   public aguaConsumida: number = 0;
   public refeicoesDoDia: any = { cafe: [], almoco: [], jantar: [], lanches: [], avulso: [] };
 
-
-
-  constructor() { 
-    
+  constructor() {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         this.usuarioId = user.uid;
@@ -41,17 +34,17 @@ export class DataService {
     this.dadosCarregados = false;
     this.nomeSubject.next('Visitante');
     this.dadosPerfil = { idade: 0, peso: 0, altura: 0, genero: 'M', nivelAtividade: 'sedentario', objetivo: 'perder', tmb: 0 };
-    this.metas = { caloriasAlvo: 2000, aguaAlvo: '2L', passosAlvo: '0', carbs: 0, proteinas: 0, gorduras: 0 };
+    this.metas = { caloriasAlvo: 2000, aguaAlvo: '2L', intervaloAgua: '0', passosAlvo: '0', carbs: 0, proteinas: 0, gorduras: 0 };
     this.aguaConsumida = 0;
     this.refeicoesDoDia = { cafe: [], almoco: [], jantar: [], lanches: [], avulso: [] };
   }
 
   async logout() {
-    try { 
-      await signOut(auth); 
-      this.limparDadosDaSessao(); 
-    } catch (error) { 
-      console.error("Erro ao realizar logout:", error); 
+    try {
+      await signOut(auth);
+      this.limparDadosDaSessao();
+    } catch (error) {
+      console.error("Erro ao realizar logout:", error);
     }
   }
 
@@ -66,40 +59,18 @@ export class DataService {
         this.metas = d.metas || this.metas;
         this.aguaConsumida = d.agua_consumida || 0;
         this.refeicoesDoDia = d.refeicoes_consumidas || this.refeicoesDoDia;
-
-        this.nomeSubject.next(this.usuarioNome );
-        this.dadosCarregados = true;
-      } else {
-
-        this.dadosCarregados = true;
         this.nomeSubject.next(this.usuarioNome);
       }
-      
-      this.dadosCarregados = true; 
-    } catch (e) { 
-      console.error("Erro ao carregar dados:", e); 
-      this.dadosCarregados = true; 
+      this.dadosCarregados = true;
+    } catch (e) {
+      console.error("Erro ao carregar dados:", e);
+      this.dadosCarregados = true;
     }
   }
 
   async salvarDadosNoFirebase() {
-
-    if (!this.usuarioId || !this.dadosCarregados) {
-      console.warn("Salvamento bloqueado: dados ainda não carregados.");
-      return;
-    }
-
-    this.nomeSubject.next(this.usuarioNome);
-
-    await set(ref(db, 'users/' + this.usuarioId), {
-      nome: this.usuarioNome,
-      dadosPerfil: this.dadosPerfil,
-      metas: this.metas,
-      refeicoes_consumidas: this.refeicoesDoDia,
-      agua_consumida: this.aguaConsumida
-    });
     if (!this.usuarioId) return;
-    
+
     try {
       await set(ref(db, 'users/' + this.usuarioId), {
         nome: this.usuarioNome,
@@ -108,8 +79,40 @@ export class DataService {
         refeicoes_consumidas: this.refeicoesDoDia,
         agua_consumida: this.aguaConsumida
       });
+      this.nomeSubject.next(this.usuarioNome);
     } catch (e) {
       console.error("Erro ao salvar dados:", e);
+    }
+  }
+
+  async configurarLembreteAgua(minutos: number) {
+    // 1. Cancela qualquer agendamento existente para não acumular
+    await LocalNotifications.cancel({ notifications: [{ id: 1 }] });
+
+    if (minutos > 0) {
+      // 2. Solicita permissão do usuário
+      const status = await LocalNotifications.requestPermissions();
+      
+      if (status.display === 'granted') {
+        // 3. Agenda a notificação recorrente
+        // O Capacitor LocalNotifications entende 'minute' para repetição
+        await LocalNotifications.schedule({
+          notifications: [
+            {
+              title: "Hora de beber água! 💧",
+              body: "Mantenha-se hidratado para atingir sua meta.",
+              id: 1,
+              schedule: {
+                every: 'minute', // Define a base de tempo
+                count: minutos,  // Multiplica pela quantidade de minutos escolhida
+                repeats: true
+              },
+              sound: 'default'
+            }
+          ]
+        });
+        console.log(`Lembrete agendado a cada ${minutos} minutos.`);
+      }
     }
   }
 
@@ -123,15 +126,14 @@ export class DataService {
     await this.salvarDadosNoFirebase();
   }
 
- 
-  async obterRefeicoesProntas() { 
-    try { 
-      const snapshot = await get(child(ref(db), 'refeicoes_prontas')); 
-      return snapshot.exists() 
-        ? Object.keys(snapshot.val()).map(key => ({ id: key, ...snapshot.val()[key] })) 
-        : []; 
-    } catch (e) { 
-      return []; 
-    } 
+  async obterRefeicoesProntas() {
+    try {
+      const snapshot = await get(child(ref(db), 'refeicoes_prontas'));
+      return snapshot.exists()
+        ? Object.keys(snapshot.val()).map(key => ({ id: key, ...snapshot.val()[key] }))
+        : [];
+    } catch (e) {
+      return [];
+    }
   }
 }

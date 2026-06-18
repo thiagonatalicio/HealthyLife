@@ -88,29 +88,46 @@ export class DataService {
     }
   }
 
+  // --- NOVA LÓGICA DE NOTIFICAÇÕES ---
   async configurarLembreteAgua(minutos: number) {
-    await LocalNotifications.cancel({ notifications: [{ id: 1 }] });
+    // 1. Busca e cancela todas as notificações pendentes para não duplicar
+    const pendentes = await LocalNotifications.getPending();
+    if (pendentes.notifications.length > 0) {
+      await LocalNotifications.cancel({ notifications: pendentes.notifications });
+    }
 
     if (minutos > 0) {
       const status = await LocalNotifications.requestPermissions();
       
       if (status.display === 'granted') {
+        const notificacoesAgendadas = [];
+        const agora = new Date().getTime(); // Pega a hora atual em milissegundos
+        
+        // Calcula quantas notificações cabem em 24h
+        const quantidadePorDia = Math.floor((24 * 60) / minutos);
+
+        // Cria a lista de horários exatos no futuro
+        for (let i = 1; i <= quantidadePorDia; i++) {
+          notificacoesAgendadas.push({
+            id: i, 
+            title: "Hora de beber água! 💧",
+            body: "Mantenha-se hidratado para atingir sua meta.",
+            schedule: {
+              // Adiciona os minutos convertidos em milissegundos
+              at: new Date(agora + (minutos * 60 * 1000 * i)),
+              // ESSENCIAL: Fura o bloqueio de bateria do app fechado
+              allowWhileIdle: true 
+            },
+            sound: 'default'
+          });
+        }
+
+        // Agenda o pacote inteiro de notificações
         await LocalNotifications.schedule({
-          notifications: [
-            {
-              title: "Hora de beber água! 💧",
-              body: "Mantenha-se hidratado para atingir sua meta.",
-              id: 1,
-              schedule: {
-                every: 'minute',
-                count: minutos,
-                repeats: true
-              },
-              sound: 'default'
-            }
-          ]
+          notifications: notificacoesAgendadas
         });
-        console.log(`Lembrete agendado a cada ${minutos} minutos.`);
+        
+        console.log(`${quantidadePorDia} lembretes agendados para as próximas 24h.`);
       }
     }
   }

@@ -12,6 +12,9 @@ export class DataService {
   public nomeSubject = new BehaviorSubject<string>('Visitante');
   public dadosCarregados: boolean = false;
 
+  // TRAVA DE NAVEGAÇÃO
+  public bloqueioRedirecionamento: boolean = false;
+
   public dadosPerfil = { idade: 0, peso: 0, altura: 0, genero: 'M', nivelAtividade: 'sedentario', objetivo: 'perder', tmb: 0 };
   public metas = { caloriasAlvo: 2000, aguaAlvo: '2L', intervaloAgua: '0', passosAlvo: '0', carbs: 0, proteinas: 0, gorduras: 0 };
   public aguaConsumida: number = 0;
@@ -86,16 +89,12 @@ export class DataService {
   }
 
   async configurarLembreteAgua(minutos: number) {
-    // 1. Cancela qualquer agendamento existente para não acumular
     await LocalNotifications.cancel({ notifications: [{ id: 1 }] });
 
     if (minutos > 0) {
-      // 2. Solicita permissão do usuário
       const status = await LocalNotifications.requestPermissions();
       
       if (status.display === 'granted') {
-        // 3. Agenda a notificação recorrente
-        // O Capacitor LocalNotifications entende 'minute' para repetição
         await LocalNotifications.schedule({
           notifications: [
             {
@@ -103,8 +102,8 @@ export class DataService {
               body: "Mantenha-se hidratado para atingir sua meta.",
               id: 1,
               schedule: {
-                every: 'minute', // Define a base de tempo
-                count: minutos,  // Multiplica pela quantidade de minutos escolhida
+                every: 'minute',
+                count: minutos,
                 repeats: true
               },
               sound: 'default'

@@ -5,53 +5,62 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebaseConfig'; 
 
 @Component({
- selector: 'app-auth',
- templateUrl: './auth.page.html',
- styleUrls: ['./auth.page.scss'],
- standalone: false
+  selector: 'app-auth',
+  templateUrl: './auth.page.html',
+  styleUrls: ['./auth.page.scss'],
+  standalone: false
 })
 export class AuthPage {
- nome: string = '';
- email: string = '';
- senha: string = '';
+  nome: string = '';
+  email: string = '';
+  senha: string = '';
 
- constructor(
-  private navCtrl: NavController, 
-  private dataService: DataService,
-  private toastCtrl: ToastController
- ) {}
+  constructor(
+    private navCtrl: NavController, 
+    private dataService: DataService,
+    private toastCtrl: ToastController
+  ) {}
 
- async irParaPerfil() {
- 
-  if (!this.nome.trim() || !this.email.trim() || !this.senha.trim()) {
-   this.mostrarToast('Por favor, preencha todos os campos.', 'warning');
-   return;
+  async irParaPerfil() {
+    if (!this.nome.trim() || !this.email.trim() || !this.senha.trim()) {
+      this.mostrarToast('Por favor, preencha todos os campos.', 'warning');
+      return;
+    }
+
+    // ATIVA O BLOQUEIO ANTES DE CHAMAR O FIREBASE
+    this.dataService.bloqueioRedirecionamento = true;
+
+    try {
+      const credenciais = await createUserWithEmailAndPassword(auth, this.email, this.senha);
+      
+      this.dataService.usuarioId = credenciais.user.uid;
+      this.dataService.usuarioNome = this.nome;
+
+      await this.dataService.salvarDadosNoFirebase(); 
+
+      this.mostrarToast('Conta criada com sucesso!', 'success');
+
+      // NAVEGAÇÃO SEGURA PARA O PERFIL
+      await this.navCtrl.navigateRoot('/perfil');
+
+      // LIBERA A TRAVA (Damos 500ms para garantir que os eventos em segundo plano do Firebase terminaram)
+      setTimeout(() => {
+        this.dataService.bloqueioRedirecionamento = false;
+      }, 500);
+
+    } catch (error: any) {
+      // SE OCORRER ERRO, LIBERA A TRAVA IMEDIATAMENTE
+      this.dataService.bloqueioRedirecionamento = false;
+      this.mostrarToast('Erro ao criar conta: ' + error.message, 'danger');
+    }
   }
 
-  try {
-   
-   const credenciais = await createUserWithEmailAndPassword(auth, this.email, this.senha);
-   
-   this.dataService.usuarioId = credenciais.user.uid;
-   this.dataService.usuarioNome = this.nome;
-
-   await this.dataService.salvarDadosNoFirebase(); 
-
-   this.mostrarToast('Conta criada com sucesso!', 'success');
-
-   this.navCtrl.navigateRoot('/perfil');
-
-  } catch (error: any) {
-   this.mostrarToast('Erro ao criar conta: ' + error.message, 'danger');
+  async mostrarToast(msg: string, color: string) {
+    const toast = await this.toastCtrl.create({ 
+      message: msg, 
+      duration: 2000, 
+      color: color 
+    });
+    await toast.present();
   }
- }
-
- async mostrarToast(msg: string, color: string) {
-  const toast = await this.toastCtrl.create({ 
-   message: msg, 
-   duration: 2000, 
-   color: color 
-  });
-  await toast.present();
- }
 }

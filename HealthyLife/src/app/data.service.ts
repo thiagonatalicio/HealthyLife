@@ -12,7 +12,7 @@ export class DataService {
   public nomeSubject = new BehaviorSubject<string>('Visitante');
   public dadosCarregados: boolean = false;
 
-  // TRAVA DE NAVEGAÇÃO
+  
   public bloqueioRedirecionamento: boolean = false;
 
   public dadosPerfil = { idade: 0, peso: 0, altura: 0, genero: 'M', nivelAtividade: 'sedentario', objetivo: 'perder', tmb: 0 };
@@ -88,9 +88,7 @@ export class DataService {
     }
   }
 
-  // --- NOVA LÓGICA DE NOTIFICAÇÕES ---
   async configurarLembreteAgua(minutos: number) {
-    // 1. Busca e cancela todas as notificações pendentes para não duplicar
     const pendentes = await LocalNotifications.getPending();
     if (pendentes.notifications.length > 0) {
       await LocalNotifications.cancel({ notifications: pendentes.notifications });
@@ -101,28 +99,21 @@ export class DataService {
       
       if (status.display === 'granted') {
         const notificacoesAgendadas = [];
-        const agora = new Date().getTime(); // Pega a hora atual em milissegundos
-        
-        // Calcula quantas notificações cabem em 24h
+        const agora = new Date().getTime(); 
         const quantidadePorDia = Math.floor((24 * 60) / minutos);
-
-        // Cria a lista de horários exatos no futuro
+        
         for (let i = 1; i <= quantidadePorDia; i++) {
           notificacoesAgendadas.push({
             id: i, 
             title: "Hora de beber água! 💧",
             body: "Mantenha-se hidratado para atingir sua meta.",
             schedule: {
-              // Adiciona os minutos convertidos em milissegundos
               at: new Date(agora + (minutos * 60 * 1000 * i)),
-              // ESSENCIAL: Fura o bloqueio de bateria do app fechado
               allowWhileIdle: true 
             },
             sound: 'default'
           });
         }
-
-        // Agenda o pacote inteiro de notificações
         await LocalNotifications.schedule({
           notifications: notificacoesAgendadas
         });

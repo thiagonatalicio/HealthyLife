@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService } from '../data.service';
-import { MenuController, ToastController } from '@ionic/angular'; // Adicionado ToastController
+import { MenuController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -13,7 +13,7 @@ export class Tab2Page {
   constructor(
     public dataService: DataService,
     private menuCtrl: MenuController,
-    private toastCtrl: ToastController // Injetado aqui
+    private toastCtrl: ToastController
   ) {}
 
   ionViewWillEnter() {
@@ -26,14 +26,13 @@ export class Tab2Page {
   }
 
   async salvarEAgendar() {
-    // 1. Salva no Firebase
+  
     await this.dataService.salvarDadosNoFirebase();
-    
-    // 2. Configura a notificação
+
     const intervalo = parseInt(this.dataService.metas.intervaloAgua || '0');
+
     await this.dataService.configurarLembreteAgua(intervalo);
     
-    // 3. Feedback visual para o usuário
     const mensagem = intervalo > 0 
       ? `Lembrete agendado a cada ${intervalo} minutos.` 
       : 'Lembretes desativados.';

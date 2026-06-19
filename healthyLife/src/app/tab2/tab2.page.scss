@@ -1,4 +1,4 @@
-/* --- ESTILOS DE TELA E WRAPPER --- */
+
 ion-content.tab2-bg {
   --background: #f4f9f6 !important;
 }
@@ -20,7 +20,6 @@ ion-content.tab2-bg {
   letter-spacing: 0.5px;
 }
 
-/* --- ESTILOS DO GRÁFICO (Gradiente Corrigido) --- */
 .water-progress-section {
   display: flex;
   justify-content: center;
@@ -72,7 +71,6 @@ ion-content.tab2-bg {
   }
 }
 
-/* --- ESTATÍSTICAS E BOTÕES --- */
 .stats-row {
   margin-bottom: 40px;
   .stat-col {
@@ -130,13 +128,12 @@ ion-content.tab2-bg {
   }
 }
 
-/* --- NOVO ESTILO PARA O BOTÃO DE LEMBRETE NO HEADER --- */
 ion-toolbar {
   ion-buttons[slot="end"] {
     ion-button {
       --color: #3498db;
       font-weight: 700;
-      font-size: 12px; /* Reduzido levemente para melhor ajuste no cabeçalho */
+      font-size: 12px;
       margin-right: 10px;
       background: rgba(52, 152, 219, 0.08);
       border-radius: 8px;

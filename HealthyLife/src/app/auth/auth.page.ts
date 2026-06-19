@@ -27,7 +27,6 @@ export class AuthPage {
       return;
     }
 
-    // ATIVA O BLOQUEIO ANTES DE CHAMAR O FIREBASE
     this.dataService.bloqueioRedirecionamento = true;
 
     try {
@@ -40,16 +39,13 @@ export class AuthPage {
 
       this.mostrarToast('Conta criada com sucesso!', 'success');
 
-      // NAVEGAÇÃO SEGURA PARA O PERFIL
       await this.navCtrl.navigateRoot('/perfil');
 
-      // LIBERA A TRAVA (Damos 500ms para garantir que os eventos em segundo plano do Firebase terminaram)
       setTimeout(() => {
         this.dataService.bloqueioRedirecionamento = false;
       }, 500);
 
     } catch (error: any) {
-      // SE OCORRER ERRO, LIBERA A TRAVA IMEDIATAMENTE
       this.dataService.bloqueioRedirecionamento = false;
       this.mostrarToast('Erro ao criar conta: ' + error.message, 'danger');
     }

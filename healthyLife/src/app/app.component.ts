@@ -21,16 +21,11 @@ export class AppComponent {
     this.menuCtrl.swipeGesture(false);
 
     onAuthStateChanged(auth, (user) => {
-      // 1. ATUALIZA O MENU PRIMEIRO (Isso traz seu menu de volta!)
       this.estaLogado = !!user;
 
-      // 2. DEPOIS VERIFICA A TRAVA DE NAVEGAÇÃO
       if (this.dataService.bloqueioRedirecionamento) {
         return; 
-      }
-
-      // 3. FAZ O REDIRECIONAMENTO
-      if (user) {
+      }if (user) {
         this.navCtrl.navigateRoot('/tabs/tab1');
       } else {
         this.navCtrl.navigateRoot('/login');

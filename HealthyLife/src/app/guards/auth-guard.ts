@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { auth } from '../../firebaseConfig'; // Ajuste o caminho
+import { auth } from '../../firebaseConfig';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -8,14 +8,13 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): Promise<boolean> {
     return new Promise((resolve) => {
-      // O onAuthStateChanged não retorna booleano direto, precisamos de uma promessa
       const unsubscribe = auth.onAuthStateChanged((user) => {
-        unsubscribe(); // Para de ouvir para não ficar executando várias vezes
+        unsubscribe();
         if (user) {
-          resolve(true); // Está logado, pode entrar
+          resolve(true);
         } else {
-          this.router.navigate(['/login']); // Não está logado, vai pro login
-          resolve(false); // Bloqueia a entrada
+          this.router.navigate(['/login']);
+          resolve(false);
         }
       });
     });
